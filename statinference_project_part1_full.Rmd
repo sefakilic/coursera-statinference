@@ -1,11 +1,4 @@
----
-title: 'Statistical Inference Course Project, Part 1: Simulation Exercises'
-author: "Sefa Kilic"
-output:
-  pdf_document:
-    fig_height: 4
-  html_document: default
----
+# Statistical Inference Course Project, Part 1: Simulation Exercises
 
 
 
@@ -28,7 +21,7 @@ row_means <- rowMeans(sim)
 
 The distribution of sample means is as follows.
 
-```{r echo=FALSE}
+```{r}
 # plot the histogram of averages
 hist(row_means, breaks=50, prob=TRUE,
      main="Distribution of averages of samples,
@@ -57,14 +50,14 @@ distribution. The figure above also shows the density computed using the histogr
 normal density plotted with theoretical mean and variance values. Also, the
 q-q plot below suggests the normality.
 
-```{r echo=FALSE}
+```{r}
 qqnorm(row_means); qqline(row_means)
 ```
 
 Finally, let's evaluate the coverage of the confidence interval for
 $1/\lambda = \bar{X} \pm 1.96 \frac{S}{\sqrt{n}}$
 
-```{r echo=FALSE}
+```{r}
 lambda_vals <- seq(4, 6, by=0.01)
 coverage <- sapply(lambda_vals, function(lamb) {
     mu_hats <- rowMeans(matrix(rexp(sample_size*num_sim, rate=0.2),
@@ -86,6 +79,3 @@ As can be seen from the plot above, for selection of $\hat{\lambda}$ around 5,
 the average of the sample mean falls within the confidence interval at least 95% of the time.
 Note that the true rate, $\lambda$ is 5.
 
-
-The report including the code for plots is available at
-http://github.com/sefakilic/coursera-statinference/statinference_project_part1.md

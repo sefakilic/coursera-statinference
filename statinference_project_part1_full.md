@@ -1,11 +1,4 @@
----
-title: 'Statistical Inference Course Project, Part 1: Simulation Exercises'
-author: "Sefa Kilic"
-output:
-  pdf_document:
-    fig_height: 4
-  html_document: default
----
+# Statistical Inference Course Project, Part 1: Simulation Exercises
 
 
 
@@ -17,7 +10,8 @@ averages of 40 numbers sampled from exponential distribution with $\lambda=0.2$.
 
 Let's do a thousand simulated averages of 40 exponentials.
 
-```{r}
+
+```r
 set.seed(3)
 lambda <- 0.2
 num_sim <- 1000
@@ -28,7 +22,8 @@ row_means <- rowMeans(sim)
 
 The distribution of sample means is as follows.
 
-```{r echo=FALSE}
+
+```r
 # plot the histogram of averages
 hist(row_means, breaks=50, prob=TRUE,
      main="Distribution of averages of samples,
@@ -46,25 +41,31 @@ lines(xfit, yfit, pch=22, col="red", lty=2)
 legend('topright', c("simulation", "theoretical"), lty=c(1,2), col=c("black", "red"))
 ```
 
-The distribution of sample means is centered at `r mean(row_means)`
-and the theoretical center of the distribution is $\lambda^{-1}$ = `r 1/lambda`.
-The variance of sample means is `r var(row_means)` where the theoretical variance
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+
+The distribution of sample means is centered at 4.9866
+and the theoretical center of the distribution is $\lambda^{-1}$ = 5.
+The variance of sample means is 0.6258 where the theoretical variance
 of the distribution is $\sigma^2 / n = 1/(\lambda^2 n) = 1/(0.04 \times 40)$ =
-`r 1/(0.04 * 40)`.
+0.625.
 
 Due to the central limit theorem, the averages of samples follow normal
 distribution. The figure above also shows the density computed using the histogram and the
 normal density plotted with theoretical mean and variance values. Also, the
 q-q plot below suggests the normality.
 
-```{r echo=FALSE}
+
+```r
 qqnorm(row_means); qqline(row_means)
 ```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
 Finally, let's evaluate the coverage of the confidence interval for
 $1/\lambda = \bar{X} \pm 1.96 \frac{S}{\sqrt{n}}$
 
-```{r echo=FALSE}
+
+```r
 lambda_vals <- seq(4, 6, by=0.01)
 coverage <- sapply(lambda_vals, function(lamb) {
     mu_hats <- rowMeans(matrix(rexp(sample_size*num_sim, rate=0.2),
@@ -78,6 +79,8 @@ library(ggplot2)
 qplot(lambda_vals, coverage) + geom_hline(yintercept=0.95)
 ```
 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+
 The 95% confidence intervals for the rate parameter ($\lambda$) to be estimated
 ($\hat{\lambda}$) are
 $\hat{\lambda}_{low} = \hat{\lambda}(1 - \frac{1.96}{\sqrt{n}})$ agnd
@@ -86,6 +89,3 @@ As can be seen from the plot above, for selection of $\hat{\lambda}$ around 5,
 the average of the sample mean falls within the confidence interval at least 95% of the time.
 Note that the true rate, $\lambda$ is 5.
 
-
-The report including the code for plots is available at
-http://github.com/sefakilic/coursera-statinference/statinference_project_part1.md
