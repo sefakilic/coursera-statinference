@@ -1,7 +1,11 @@
 ---
 title: 'Statistical Inference Course Project, Part 2: Basic Inferential Data Analysis'
 author: "Sefa Kilic"
-output: pdf_document
+output:
+  html_document: default
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
 ---
 
 In the second part of the project, we analyze the `ToothGrowth` data in the R
@@ -36,6 +40,7 @@ fit <- lm(len ~ dose + supp, data=ToothGrowth)
 summary(fit)
 ```
 
+The model explains 70% of the variance in the data.
 The intercept is `r fit$coefficients[[1]]`, meaning that with no supplement of
 Vitamin C, the average tooth length is `r fit$coefficients[[1]]` units. The
 coefficient of `dose` is `r fit$coefficients[[2]]`. It can be interpreted as
@@ -49,4 +54,15 @@ a given dose as ascorbic acid, without changing the dose, would result in
 are only two categories, we can also conclude that on average, delivering the dosage as
 orange juice would increase the tooth length by `r abs(fit$coefficients[[3]])` units.
 
-confidence here
+95% confidence intervals for two variables and the intercept are as follows.
+```{r}
+confint(fit)
+```
+The confidence intervals mean that if we collect a different set of data and
+estimate parameters of the linear model many times, 95% of the time, the
+coefficient estimations will be in these ranges. For each coefficient (i.e.
+intercept, `dose` and `suppVC`), the null hypothesis is that the coefficients are
+zero, meaning that no tooth length variation is explained by that variable.
+All _p_-values are less than 0.05, rejecting the null hypothesis and suggesting
+that each variable explains a significant portion of variability in tooth length,
+assuming the significance level is 5%.
